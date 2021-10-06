@@ -1,12 +1,6 @@
+const { writeFile, copyFile } = require('./utils/generate-site');
 const inquirer = require('inquirer');
-const fs = require('fs');
 const generatePage = require('./src/page-template');
-
-const mockData = {
-    name: "Matteo Meza",
-    github: "MatteoMeza",
-    projects: []
-};
 
 const promptUser = () => {
     return inquirer.prompt([
@@ -26,8 +20,8 @@ const promptUser = () => {
     {   type: "input",
         name: "github",
         message: "Enter your GitHub Username (Required)",
-        validate: nameInput => {
-            if (nameInput) {
+        validate: githubInput => {
+            if (githubInput) {
                 return true;
             } else {
                 console.log("Please enter you GitHub Username!");
@@ -85,8 +79,8 @@ const promptProject = portfolioData => {
             type:"input",
             name: "description",
             message: "Provide a description of the project (Required)",
-            validate: nameInput => {
-                if (nameInput) {
+            validate: descriptionInput => {
+                if (descriptionInput) {
                     return true;
                 } else {
                     console.log("Please enter a description of your project!");
@@ -105,8 +99,8 @@ const promptProject = portfolioData => {
             type: "input",
             name: "link",
             message: "Enter your GitHub link to your project. (Required)",
-            validate: nameInput => {
-                if (nameInput) {
+            validate: linkInput => {
+                if (linkInput) {
                     return true;
                 } else {
                     console.log("Please enter your GitHub link to your project!");
@@ -138,46 +132,23 @@ const promptProject = portfolioData => {
     });
 };
 
-const pageHTML = generatePage(mockData);
-
-// promptUser()
-//     .then(promptProject)
-//     .then(portfolioData => {
-//         const pageHTML = generatePage(portfolioData);
-
-        fs.writeFile('./index.html', pageHTML, err => {
-            if (err) throw new Error(err);
-        
-            console.log('Page created! Check out index.html in this directory to see it!');
-        });
-//     });
-
-
-    
-
-
-
-
+promptUser()
+    .then(promptProject)
+    .then(portfolioData => {
+        return generatePage(portfolioData);
+    })
+    .then(pageHTML => {
+        return writeFile(pageHTML);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+        return copyFile();
+    })
+    .then(copyFileResponse => {
+        console.log(copyFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
+    });
 
 
-
-
-
-
-
-
-
-// // Take note of the lack of parentheses around the `profileDataArr` parameter
-// const printProfileData = profileDataArr => {
-//     // This...
-//     for (let i = 0; i < profileDataArr.length; i += 1) {
-//         console.log(profileDataArr[i]);
-//     }
-
-//     console.log('================');
-
-//     // Is the same as this...
-//     profileDataArr.forEach(profileItem => console.log(profileItem));
-// };
-
-// printProfileData(profileDataArgs);

@@ -31,7 +31,7 @@ const generateProjects = projectsArr => {
                         <p>${description}</p>
                         <a href="${link}" class="btn mt-auto"><i class="fab fa-github mr-2"></i>View Project on GitHub</a>
                     </div>
-                 `;
+                `;
                 })
                 .join('')}
 
@@ -48,7 +48,7 @@ const generateProjects = projectsArr => {
                         <p>${description}</p>
                         <a href="${link}" class="btn mt-auto"><i class="fab fa-github mr-2"></i>View Project on GitHub</a>
                     </div>
-                 `;
+                `;
                 })
                 .join('')}
             </div>
@@ -59,7 +59,6 @@ const generateProjects = projectsArr => {
 module.exports = templateData => {
     // DESTRUCTURE page data by section
     const { projects, about, ...header } = templateData;
-    
     
     return `
     <!DOCTYPE html>
@@ -100,4 +99,3 @@ module.exports = templateData => {
     `;
 };
 
-// module.exports = generatePage;
